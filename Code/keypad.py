@@ -1,17 +1,14 @@
 import RPi.GPIO as GPIO
 import time
 
-# Define the row and column pins of the keypad
-ROW_PINS = [25, 12, 13, 19]
-COL_PINS = [17, 18, 27, 22]
+row = [25, 12, 13, 19]
+col = [17, 18, 27, 22]
 
-# Initialize the GPIO pins
 GPIO.setmode(GPIO.BCM)
-GPIO.setup(ROW_PINS, GPIO.OUT)
-GPIO.setup(COL_PINS, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(row, GPIO.OUT)
+GPIO.setup(col, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
-# Create a dictionary to map the keypad buttons to characters
-KEYPAD_MAP = {
+keypad = {
     (1, 0): "1",
     (1, 1): "2",
     (1, 2): "3",
@@ -31,20 +28,18 @@ KEYPAD_MAP = {
 }
 
 def read_keypad():
-  """Reads the keypad and returns the pressed button, or None if no button is pressed."""
-  for row in range(4):
-    GPIO.output(ROW_PINS[row], GPIO.LOW)
-    for col in range(4):
-      if not GPIO.input(COL_PINS[col]):
-        return (row, col)
-    GPIO.output(ROW_PINS[row], GPIO.HIGH)
+  for rows in range(4):
+    GPIO.output(row[rows], GPIO.LOW)
+    for cols in range(4):
+      if not GPIO.input(col[cols]):
+        return (rows, cols)
+    GPIO.output(row[rows], GPIO.HIGH)
 
 def main():
-  """The main loop that reads the keypad and prints the pressed button."""
   while True:
     button = read_keypad()
     if button:
-      print(KEYPAD_MAP[button])
+      print(keypad[button])
 
 if __name__ == "__main__":
   main()
