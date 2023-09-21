@@ -5,7 +5,6 @@ GPIO.setmode(GPIO.BCM)
 led = 18
 GPIO.setup(led, GPIO.OUT)
 
-
 pwm = GPIO.PWM(led, 100)
 
 ser = serial.Serial('/dev/ttyS0', 115200, timeout=1)
